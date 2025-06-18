@@ -48,7 +48,7 @@ PROGRAM TOYATM
   CHARACTER(len=8), DIMENSION(4), PARAMETER :: var_name = (/'WVOCEANU','WVOCEANV','WVOCTAUU','WVOCTAUV'/) ! 8 characters field
   !
   ! Used in oasis_def_var and oasis_def_var
-  INTEGER                       :: var_id(3)
+  INTEGER                       :: var_id(4)
   INTEGER                       :: var_nodims(2) 
   INTEGER                       :: var_type
   !
@@ -231,14 +231,21 @@ PROGRAM TOYATM
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
 
-  ! Declaration of the field associated with the partition (send)
   CALL oasis_def_var (var_id(2), var_name(2), part_id, &
+                      var_nodims, OASIS_In, var_sh, var_type, ierror)
+  IF (ierror /= 0) THEN
+      WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
+      CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
+  ENDIF
+  
+  ! Declaration of the field associated with the partition (send)
+  CALL oasis_def_var (var_id(3), var_name(3), part_id, &
                       var_nodims, OASIS_Out, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
       WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
-  CALL oasis_def_var (var_id(3), var_name(3), part_id, &
+  CALL oasis_def_var (var_id(4), var_name(4), part_id, &
                       var_nodims, OASIS_Out, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
       WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
@@ -278,15 +285,20 @@ PROGRAM TOYATM
   DO ib=1, niter
     it_sec = time_step * (ib-1) ! Time
  
-    ! QNS
+    ! TAU U
     field_send(:,:) = 1. 
     !
-    CALL oasis_put(var_id(2), it_sec, field_send, ierror )
-    ! EMPs
-    field_send(:,:) = 10./ 86400.
     CALL oasis_put(var_id(3), it_sec, field_send, ierror )
-    ! SST
+    ! TAU V
+    field_send(:,:) = 1.
+    CALL oasis_put(var_id(4), it_sec, field_send, ierror )
+
+    ! U_current
     CALL oasis_get(var_id(1), it_sec, &
+                   field_recv, &
+                   ierror )
+    ! V_current
+    CALL oasis_get(var_id(2), it_sec, &
                    field_recv, &
                    ierror )
     !
