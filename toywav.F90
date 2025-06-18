@@ -44,7 +44,8 @@ PROGRAM TOYATM
   INTEGER :: FILE_Debug=1
   !
   ! Names of exchanged Fields
-  CHARACTER(len=8), DIMENSION(3), PARAMETER :: var_name = (/'ATSSTSST','ATSOLFLX','ATFLXEMP'/) ! 8 characters field
+  !CHARACTER(len=8), DIMENSION(3), PARAMETER :: var_name = (/'ATSSTSST','ATSOLFLX','ATFLXEMP'/) ! 8 characters field
+  CHARACTER(len=8), DIMENSION(4), PARAMETER :: var_name = (/'WVOCEANU','WVOCEANV','WVOCTAUU','WVOCTAUV'/) ! 8 characters field
   !
   ! Used in oasis_def_var and oasis_def_var
   INTEGER                       :: var_id(3)
