@@ -1,2 +1,2 @@
-# CPL_OASIS_demo
+# CPL OASIS demonstrator
 Demonstrator for CPL OASIS NEMO test configuration
