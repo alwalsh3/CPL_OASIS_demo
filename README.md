@@ -10,3 +10,5 @@ Modifications needed to run the CPL_DEMONSTRATOR for NEMO5
 6.	Job script updated for your own HPC architecture. 
 Slurm or PBC. Sometimes we have to mess around the order of executables called. For some architecture call nemo, xios and toyatm (in this order) for some other xios is called last. 
 
+We need to get the ORCA2 files from     wget "https://gws-access.jasmin.ac.uk/public/nemo/sette_inputs/r5.0.0/ORCA2_ICE_v5.0.0.tar.gz"
+
