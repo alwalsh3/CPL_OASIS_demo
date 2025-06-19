@@ -149,7 +149,7 @@ PROGRAM TOYATM
   ! Reading global grids.nc and masks.nc netcdf files
   ! Get arguments giving source grid acronym and field type
   ! 
-  cl_grd_src = 'lmdz'
+  cl_grd_src = 'wavm'
   !
   IF (FILE_Debug >= 2) THEN
       WRITE(w_unit,*) 'Source grid name : ',cl_grd_src
