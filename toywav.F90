@@ -84,26 +84,26 @@ PROGRAM TOYATM
   !
   CALL oasis_init_comp (comp_id, comp_name, ierror )
   IF (ierror /= 0) THEN
-      WRITE(0,*) 'oasis_init_comp abort by toyatm compid ',comp_id
+      WRITE(0,*) 'oasis_init_comp abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_init_comp')
   ENDIF
   !
   CALL oasis_get_localcomm ( localComm, ierror )
   IF (ierror /= 0) THEN
-      WRITE (0,*) 'oasis_get_localcomm abort by toyatm compid ',comp_id
+      WRITE (0,*) 'oasis_get_localcomm abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_get_localcomm')
   ENDIF
   !
   ! Get MPI size and rank
   CALL MPI_Comm_Size ( localComm, npes, ierror )
   IF (ierror /= 0) THEN
-      WRITE(0,*) 'MPI_comm_size abort by toyatm compid ',comp_id
+      WRITE(0,*) 'MPI_comm_size abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at MPI_Comm_Size')
   ENDIF
   !
   CALL MPI_Comm_Rank ( localComm, mype, ierror )
   IF (ierror /= 0) THEN
-      WRITE (0,*) 'MPI_Comm_Rank abort by toyatm compid ',comp_id
+      WRITE (0,*) 'MPI_Comm_Rank abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at MPI_Comm_Rank')
   ENDIF
   !
@@ -227,14 +227,14 @@ PROGRAM TOYATM
   CALL oasis_def_var (var_id(1), var_name(1), part_id, &
                       var_nodims, OASIS_In, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
+      WRITE(w_unit,*) 'oasis_def_var abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
 
   CALL oasis_def_var (var_id(2), var_name(2), part_id, &
                       var_nodims, OASIS_In, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
+      WRITE(w_unit,*) 'oasis_def_var abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
   
@@ -242,13 +242,13 @@ PROGRAM TOYATM
   CALL oasis_def_var (var_id(3), var_name(3), part_id, &
                       var_nodims, OASIS_Out, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
+      WRITE(w_unit,*) 'oasis_def_var abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
   CALL oasis_def_var (var_id(4), var_name(4), part_id, &
                       var_nodims, OASIS_Out, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
+      WRITE(w_unit,*) 'oasis_def_var abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
   IF (FILE_Debug >= 2) THEN
@@ -263,7 +263,7 @@ PROGRAM TOYATM
   !
   CALL oasis_enddef ( ierror )
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_enddef abort by toyatm compid ',comp_id
+      WRITE(w_unit,*) 'oasis_enddef abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_enddef')
   ENDIF
   IF (FILE_Debug >= 2) THEN
@@ -314,7 +314,7 @@ PROGRAM TOYATM
   !
   CALL oasis_terminate (ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_terminate abort by toyatm compid ',comp_id
+      WRITE(w_unit,*) 'oasis_terminate abort by toywav compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_terminate')
   ENDIF
   !
