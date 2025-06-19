@@ -16,7 +16,7 @@ PROGRAM TOYATM
   CHARACTER(len=30), PARAMETER   :: data_maskname='masks.nc' ! file with the masks
   !
   ! Component name (6 characters) same as in the namcouple
-  CHARACTER(len=6)   :: comp_name = 'toywav'
+  CHARACTER(len=6)   :: comp_name = 'toyatm'
   CHARACTER(len=128) :: comp_out       ! name of the output log file
   CHARACTER(len=4)   :: cl_grd_src     ! name of the source grid
   !
@@ -44,11 +44,10 @@ PROGRAM TOYATM
   INTEGER :: FILE_Debug=1
   !
   ! Names of exchanged Fields
-  !CHARACTER(len=8), DIMENSION(3), PARAMETER :: var_name = (/'ATSSTSST','ATSOLFLX','ATFLXEMP'/) ! 8 characters field
-  CHARACTER(len=8), DIMENSION(4), PARAMETER :: var_name = (/'WVOCEANU','WVOCEANV','WVOCTAUU','WVOCTAUV'/) ! 8 characters field
+  CHARACTER(len=8), DIMENSION(3), PARAMETER :: var_name = (/'ATSSTSST','ATSOLFLX','ATFLXEMP'/) ! 8 characters field
   !
   ! Used in oasis_def_var and oasis_def_var
-  INTEGER                       :: var_id(4)
+  INTEGER                       :: var_id(3)
   INTEGER                       :: var_nodims(2) 
   INTEGER                       :: var_type
   !
@@ -85,26 +84,26 @@ PROGRAM TOYATM
   !
   CALL oasis_init_comp (comp_id, comp_name, ierror )
   IF (ierror /= 0) THEN
-      WRITE(0,*) 'oasis_init_comp abort by toywav compid ',comp_id
+      WRITE(0,*) 'oasis_init_comp abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_init_comp')
   ENDIF
   !
   CALL oasis_get_localcomm ( localComm, ierror )
   IF (ierror /= 0) THEN
-      WRITE (0,*) 'oasis_get_localcomm abort by toywav compid ',comp_id
+      WRITE (0,*) 'oasis_get_localcomm abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_get_localcomm')
   ENDIF
   !
   ! Get MPI size and rank
   CALL MPI_Comm_Size ( localComm, npes, ierror )
   IF (ierror /= 0) THEN
-      WRITE(0,*) 'MPI_comm_size abort by toywav compid ',comp_id
+      WRITE(0,*) 'MPI_comm_size abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at MPI_Comm_Size')
   ENDIF
   !
   CALL MPI_Comm_Rank ( localComm, mype, ierror )
   IF (ierror /= 0) THEN
-      WRITE (0,*) 'MPI_Comm_Rank abort by toywav compid ',comp_id
+      WRITE (0,*) 'MPI_Comm_Rank abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at MPI_Comm_Rank')
   ENDIF
   !
@@ -150,7 +149,7 @@ PROGRAM TOYATM
   ! Reading global grids.nc and masks.nc netcdf files
   ! Get arguments giving source grid acronym and field type
   ! 
-  cl_grd_src = 'wavm'
+  cl_grd_src = 'lmdz'
   !
   IF (FILE_Debug >= 2) THEN
       WRITE(w_unit,*) 'Source grid name : ',cl_grd_src
@@ -181,8 +180,8 @@ PROGRAM TOYATM
          ENDIF
      ENDDO
      CALL check_nf90( nf90_redef( auxfileid ) )
-     CALL check_nf90( nf90_def_dim( auxfileid, "wavlon", nlon, auxdimid(1)) )
-     CALL check_nf90( nf90_def_dim( auxfileid, "wavlat", nlat, auxdimid(2)) )
+     CALL check_nf90( nf90_def_dim( auxfileid, "toylon", nlon, auxdimid(1)) )
+     CALL check_nf90( nf90_def_dim( auxfileid, "toylat", nlat, auxdimid(2)) )
      CALL check_nf90( nf90_def_var( auxfileid, cl_grd_src//'.lon', NF90_DOUBLE, auxdimid, auxvarid(1)))
      CALL check_nf90( nf90_def_var( auxfileid, cl_grd_src//'.lat', NF90_DOUBLE, auxdimid, auxvarid(2)))
      CALL check_nf90( nf90_enddef( auxfileid ) )
@@ -200,8 +199,8 @@ PROGRAM TOYATM
          ENDIF
        ENDDO
      CALL check_nf90( nf90_redef( auxfileid ) )
-     CALL check_nf90( nf90_def_dim( auxfileid, "wavlon", nlon, auxdimid(1)) )
-     CALL check_nf90( nf90_def_dim( auxfileid, "wavlat", nlat, auxdimid(2)) )
+     CALL check_nf90( nf90_def_dim( auxfileid, "toylon", nlon, auxdimid(1)) )
+     CALL check_nf90( nf90_def_dim( auxfileid, "toylat", nlat, auxdimid(2)) )
      CALL check_nf90( nf90_def_var( auxfileid, cl_grd_src//'.msk', NF90_INT, auxdimid, auxvarid(1)))
      CALL check_nf90( nf90_enddef( auxfileid ) )
      CALL check_nf90( nf90_put_var( auxfileid, auxvarid(1), gg_mask ) )
@@ -242,28 +241,21 @@ PROGRAM TOYATM
   CALL oasis_def_var (var_id(1), var_name(1), part_id, &
                       var_nodims, OASIS_In, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_def_var abort by toywav compid ',comp_id
+      WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
 
+  ! Declaration of the field associated with the partition (send)
   CALL oasis_def_var (var_id(2), var_name(2), part_id, &
-                      var_nodims, OASIS_In, var_sh, var_type, ierror)
+                      var_nodims, OASIS_Out, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_def_var abort by toywav compid ',comp_id
+      WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
-  
-  ! Declaration of the field associated with the partition (send)
   CALL oasis_def_var (var_id(3), var_name(3), part_id, &
                       var_nodims, OASIS_Out, var_sh, var_type, ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_def_var abort by toywav compid ',comp_id
-      CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
-  ENDIF
-  CALL oasis_def_var (var_id(4), var_name(4), part_id, &
-                      var_nodims, OASIS_Out, var_sh, var_type, ierror)
-  IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_def_var abort by toywav compid ',comp_id
+      WRITE(w_unit,*) 'oasis_def_var abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_def_var')
   ENDIF
   IF (FILE_Debug >= 2) THEN
@@ -278,7 +270,7 @@ PROGRAM TOYATM
   !
   CALL oasis_enddef ( ierror )
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_enddef abort by toywav compid ',comp_id
+      WRITE(w_unit,*) 'oasis_enddef abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_enddef')
   ENDIF
   IF (FILE_Debug >= 2) THEN
@@ -300,20 +292,15 @@ PROGRAM TOYATM
   DO ib=1, niter
     it_sec = time_step * (ib-1) ! Time
  
-    ! TAU U
+    ! QNS
     field_send(:,:) = 1. 
     !
+    CALL oasis_put(var_id(2), it_sec, field_send, ierror )
+    ! EMPs
+    field_send(:,:) = 10./ 86400.
     CALL oasis_put(var_id(3), it_sec, field_send, ierror )
-    ! TAU V
-    field_send(:,:) = 1.
-    CALL oasis_put(var_id(4), it_sec, field_send, ierror )
-
-    ! U_current
+    ! SST
     CALL oasis_get(var_id(1), it_sec, &
-                   field_recv, &
-                   ierror )
-    ! V_current
-    CALL oasis_get(var_id(2), it_sec, &
                    field_recv, &
                    ierror )
     !
@@ -329,7 +316,7 @@ PROGRAM TOYATM
   !
   CALL oasis_terminate (ierror)
   IF (ierror /= 0) THEN
-      WRITE(w_unit,*) 'oasis_terminate abort by toywav compid ',comp_id
+      WRITE(w_unit,*) 'oasis_terminate abort by toyatm compid ',comp_id
       CALL oasis_abort(comp_id,comp_name,'Problem at oasis_terminate')
   ENDIF
   !
