@@ -6,7 +6,7 @@
 # Any line beginning with # is ignored. Blank lines are not allowed
 ####################################################################
  $NFIELDS 
-13
+15
  $END
 ############################################
  $RUNTIME 
@@ -71,10 +71,6 @@ INT=1
 BILINEAR LR SCALAR LATLON 1
 INT=1
 #
-0.  0
-BILINEAR LR SCALAR LATLON 1
-INT=1
-#
 ATSOLFLX O_MSLP 1 5400 4 rst.nc EXPOUT
 180 90 180 148 lmdz torc
 P 0 P 2
@@ -115,8 +111,8 @@ CHECKIN SCRIPR CHECKOUT
 INT=1
 BILINEAR LR SCALAR LATLON 1
 INT=1
-###### NEMO-WAVE ####
-O_Curxw WVOCEANU 1 5400 3 rst.nc EXPOUT
+######NEMO-WAVE####
+O_OCurxw WVOCEANU 1 5400 3 rst.nc EXPOUT
 180 148 180 90 torc wavm
 P 2 P 0 
 CHECKIN SCRIPR CHECKOUT 
@@ -124,15 +120,15 @@ INT=1
 BILINEAR LR SCALAR LATLON 1
 INT=1
 #
-O_Curyw WVOCEANV 1 5400 3 rst.nc EXPOUT
+O_OCuryw WVOCEANV 1 5400 3 rst.nc EXPOUT
 180 148 180 90 torc wavm
 P 2 P 0 
 CHECKIN SCRIPR CHECKOUT 
 INT=1
 BILINEAR LR SCALAR LATLON 1
 INT=1
-###### Wave - NEMO variables ####
-WVOCTAUU O_OTauwx 1 5400 4 rst.nc EXPOUT
+######Wave-NEMO####
+WVOCTAUU O_Twox 1 5400 4 rst.nc EXPOUT
 180 90 180 148 wavm torc
 P 0 P 2 
 CHECKIN BLASOLD SCRIPR CHECKOUT 
@@ -141,9 +137,13 @@ INT=1
 BILINEAR LR SCALAR LATLON 1
 INT=1
 #
-WVOCTAUV O_OTauwy 1 5400 4 rst.nc EXPOUT
+WVOCTAUV O_Twoy 1 5400 4 rst.nc EXPOUT
 180 90 180 148 wavm torc
 P 0 P 2 
 CHECKIN BLASOLD SCRIPR CHECKOUT 
 INT=1
+0.  0
+BILINEAR LR SCALAR LATLON 1
+INT=1
+#
  $END
