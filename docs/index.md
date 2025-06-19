@@ -2,9 +2,7 @@
   <img width="500" height="300" src="./assets/graphics.004.jpeg">
 </p>
 
-
-**Example page!**
-**This is the main page of your docume**
+**Demonstrator to get started with coupling NEMO to other models with OASIS**
 
 # Your 1st subesections: 
 
