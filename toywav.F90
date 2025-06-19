@@ -173,8 +173,8 @@ PROGRAM TOYATM
      ! Define longitude and latitude
      CALL check_nf90( nf90_open( data_gridname, nf90_write, auxfileid ) )
      CALL check_nf90( nf90_redef( auxfileid ) )
-     CALL check_nf90( nf90_def_dim( auxfileid, "toylon", nlon, auxdimid(1)) )
-     CALL check_nf90( nf90_def_dim( auxfileid, "toylat", nlat, auxdimid(2)) )
+     CALL check_nf90( nf90_def_dim( auxfileid, "wavlon", nlon, auxdimid(1)) )
+     CALL check_nf90( nf90_def_dim( auxfileid, "wavlat", nlat, auxdimid(2)) )
      CALL check_nf90( nf90_def_var( auxfileid, cl_grd_src//'.lon', NF90_DOUBLE, auxdimid, auxvarid(1)))
      CALL check_nf90( nf90_def_var( auxfileid, cl_grd_src//'.lat', NF90_DOUBLE, auxdimid, auxvarid(2)))
      CALL check_nf90( nf90_enddef( auxfileid ) )
@@ -185,8 +185,8 @@ PROGRAM TOYATM
      ! Define mask
      CALL check_nf90( nf90_open( data_maskname, nf90_write, auxfileid ) )
      CALL check_nf90( nf90_redef( auxfileid ) )
-     CALL check_nf90( nf90_def_dim( auxfileid, "toylon", nlon, auxdimid(1)) )
-     CALL check_nf90( nf90_def_dim( auxfileid, "toylat", nlat, auxdimid(2)) )
+     CALL check_nf90( nf90_def_dim( auxfileid, "wavlon", nlon, auxdimid(1)) )
+     CALL check_nf90( nf90_def_dim( auxfileid, "wavlat", nlat, auxdimid(2)) )
      CALL check_nf90( nf90_def_var( auxfileid, cl_grd_src//'.msk', NF90_INT, auxdimid, auxvarid(1)))
      CALL check_nf90( nf90_enddef( auxfileid ) )
      CALL check_nf90( nf90_put_var( auxfileid, auxvarid(1), gg_mask ) )
