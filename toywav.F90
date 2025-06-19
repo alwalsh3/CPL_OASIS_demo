@@ -16,7 +16,7 @@ PROGRAM TOYATM
   CHARACTER(len=30), PARAMETER   :: data_maskname='masks.nc' ! file with the masks
   !
   ! Component name (6 characters) same as in the namcouple
-  CHARACTER(len=6)   :: comp_name = 'toyatm'
+  CHARACTER(len=6)   :: comp_name = 'toywav'
   CHARACTER(len=128) :: comp_out       ! name of the output log file
   CHARACTER(len=4)   :: cl_grd_src     ! name of the source grid
   !
