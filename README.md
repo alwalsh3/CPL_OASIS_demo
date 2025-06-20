@@ -2,12 +2,6 @@
 Demonstrator for CPL OASIS NEMO test configuration.
 Modifications needed to run the CPL_DEMONSTRATOR for NEMO5 
 
-1.	New arch file for compilation (use it for both toyatm and nemo)
-2.	XIOS3 compiled with OASIS support 
-3.	OASIS
-4.	Compile NEMO with key_xios AND key_xios3
-5.	Iodef update oasis_codes_id  clients_code_id
-6.	Job script updated for your own HPC architecture. 
 Slurm or PBC. Sometimes we have to mess around the order of executables called. For some architecture call nemo, xios and toyatm (in this order) for some other xios is called last. 
 
 
@@ -51,7 +45,9 @@ We are now ready to compile the CPL_OASIS test case. To do this, navigate to the
 ```
 ./makenemo -a CPL_OASIS -n MYCPL_OASIS -m your_Arch_file -j 8
 ```
+**NOTE:** You must ensure you have the same software enivornment loaded when you compile NEMO as you did when you compiled XIOS3 and OASIS
 
+We have included example Arch files from two HPCs in `/CPL_OASIS_demo/support_files/`.
 
 ## Download forcing data
 We need to get the ORCA2 ancilliary files which can be downloaded from here:
@@ -80,4 +76,60 @@ Now we compile them. Ensure you are in the `/nemo_5.0.1/tools/` and run:
 **NOTE:** You must ensure you have the same software enivornment loaded when you compile TOYATM and TOYWAV as for when you compiled NEMO. 
 
 
+# Test case 1: Couple NEMO to TOYATM
+
+The updated CPL_OASIS test case that you have compiled is now almost ready to run. One additional step is to add a job script and update for your machine. Navigate to `/nemo_5.0.1/tests/MYCPL_OASIS/EXPO0/` and copy an example job script from this repository. We have included examples from a SLURM and PBS based HPC. To copy (using the PBS example),
+
+```
+cp /CPL_OASIS_demo/support_files/job_run_CPL_OASIS_ATM_UKMO_PBS .
+```
+There are a number of changes you will need to make to set up the job script. Update the paths of CONFIG_DIR, WORK, DATADIR, TOYATM_DIR, XIOS_DIR to the paths on your system.
+
+It should now be ready to submit, e.g. for PBS do
+
+```
+qsub job_run_CPL_OASIS_ATM_UKMO_PBS
+```
+or for SLURM, 
+
+```
+sbatch job_run_CPL_OASIS_ATM_NOC_SLURM
+```
+
+The output should be located in the WORK directory you specified in the job script (`$WORK/OUT/CPLTESTCASE/$XXD`). You can check if the model ran to completion by checking
+
+```
+cat time.step
+```
+and it should say `160` - which is the total length of this test run.
+
+There should also be a number of netCDF files produced, one for each NEMO grid, e.g. `ORCA2_5d_00010101_00010110_grid_T.nc`.
+
+
+# Test case 2: Couple NEMO to TOYATM and TOYWAV
+
+We can now try coupling NEMO to two different models: a toy atmosphere (`TOYATM`) and a toy wave model (`TOYWAV`). We will use the same test configuration `CPL_OASIS`, and create a new configuration `MYCPL_OASIS_ATMWAV` for this example:
+
+```
+./makenemo -a CPL_OASIS -n MYCPL_OASIS_ATMWAV -m your_Arch_file -j 8
+```
+
+Before submitting our job, we need to make some changes. Navigate to the configuration directory `/nemo_5.0.1/tests/MYCPL_OASIS_ATMWAV/EXPO0/`. From the support files from this repository, copy the namelist `namlelist_cfg_ATMWAV` and rename to just `namelist_cfg` (since this is what will be picked up by NEMO). 
+
+```
+cp /CPL_OASIS_demo/support_files/namelist_cfg_ATMWAV .
+mv namelist_cfg_ATMWAV namelist_cfg
+```
+
+As before, we also need to copy a job script. For example,
+
+```
+cp /CPL_OASIS_demo/support_files/job_run_CPL_OASIS_ATMWAV_UKMO_PBS .
+```
+Note that this is different to the job script used in Test case 1. Update the job script for your machine, and submit.
+
+
+# Debugging tips
+
+* From testing, we found that different machines may be sensitive to the order of the executables in the run command (e.g. `mpiexec`) in the job script. If NEMO hangs when you submit your job, try reordering the XIOS3 executable and try again. 
 
