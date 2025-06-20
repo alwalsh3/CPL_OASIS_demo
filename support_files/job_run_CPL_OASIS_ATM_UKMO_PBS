@@ -1,0 +1,82 @@
+#!/bin/bash
+#
+#PBS -q normal
+#PBS -l select=3
+#PBS -l walltime=00:30:00
+###################################
+set -x
+ulimit -s unlimited
+##
+## CONFIG_DIR is submission directory
+## Load appropriate modules.  
+module use /data/users/rmed_workflows/MODULES_NEMO_HACK/modules
+module load NEMO_hack_202506-PrgEnv/NEMO_hack_202506-cpe23.05/5640
+###################################
+
+CONFIG_DIR=/data/users/$USER/nemo_5.0.1/tests/MYCPL_OASIS_EXAB/EXP00
+echo $CONFIG_DIR
+#
+cd ${CONFIG_DIR}
+pwd
+##
+## Define and create execution directory and move there
+##
+export WORK=$SCRATCH/NEMOCPL
+#rm -rf $WORK
+XXD=`date +%F%H%M%S`
+echo " XXD " $XXD
+mkdir -p $WORK/OUT/CPLTESTCASE/$XXD
+cd $WORK/OUT/CPLTESTCASE/$XXD
+echo "RUN directory " `pwd`
+##
+## Get input files for NEMO
+##
+DATA1DIR=$DATADIR/FORCING_NEMO/ORCA2_ICE_v5.0.0
+for file in $DATA1DIR/* 
+do
+ln -sf $file . || exit 2
+done
+# Get input namelist  and xml files
+for file in $CONFIG_DIR/*namelist*_ref $CONFIG_DIR/*namelist*_cfg $CONFIG_DIR/*.xml
+do
+    cp $file . || exit 3
+done
+##
+## Get input files for TOYATM, including the namcouple file
+##
+TOYATM_DIR=$DATADIR/nemo_5.0.1/tools/TOYATM
+for file in $TOYATM_DIR/EXP/*
+do
+    cp $file . || exit 4
+done
+##
+XIOS_HOME=$xios_path
+echo "XIOS path is $XIOS_HOME"
+## Get Executables
+##
+cp $CONFIG_DIR/nemo nemo.exe  || exit 5
+cp $TOYATM_DIR/toyatm.exe . || exit 5
+cp $XIOS_HOME/bin/xios_server.exe . || exit 5
+##
+echo "DIR BEFORE EXEC"
+ls -l
+echo '(3) Prepare launch of the run'
+echo '----------------'
+export MPIRUN="srun --mpi=pmi2 --cpu-bind=cores -K1"
+NB_PROCS_NEMO=28
+NB_PROCS_TOYATM=1
+NB_PROCS_XIOS=1
+date  
+##
+## Run the CPL test case using 27 processes for nemo and 1 for toyatm
+##
+echo '(4) Run the code'
+echo '----------------'
+
+mpiexec  --cpu-bind=depth --np $NB_PROCS_NEMO  ./nemo.exe : --np $NB_PROCS_TOYATM  ./toyatm.exe : --np $NB_PROCS_XIOS ./xios_server.exe
+
+echo "DIR AFTER EXEC"
+ls -l
+date
+pwd
+
