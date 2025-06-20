@@ -3,7 +3,7 @@
 ! All rights reserved. Use is subject to OASIS3 license terms.
 !=============================================================================
 !
-PROGRAM TOYATM
+PROGRAM TOYWAV
   !
   USE netcdf
   USE mod_oasis
@@ -359,5 +359,5 @@ CONTAINS
 
    END SUBROUTINE check_nf90
   !
-END PROGRAM TOYATM
+END PROGRAM TOYWAV
 !
