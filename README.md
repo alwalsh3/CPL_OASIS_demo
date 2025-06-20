@@ -35,9 +35,8 @@ git clone --branch 5.0.1 https://forge.nemo-ocean.eu/nemo/nemo.git nemo_5.0.1
 This demonstrator includes an updated version of the CPL_OASIS test case, so next we will need to clone the repository.
 
 ```
-git clone git@github.com:alwalsh3/CPL_OASIS_demo.git
+git clone https://github.com/alwalsh3/CPL_OASIS_demo.git
 ```
-This requires git being set up with an SSH key pair on your system. 
 
 ### Copy new CPL_OASIS and compile
 Navigate to the location of the test coniguration CPL_OASIS:
