@@ -45,9 +45,9 @@ Navigate to the location of the test coniguration CPL_OASIS:
 ```
 cd /nemo_5.0.1/tests/
 ```
-Then, from the clone of this repository that you have made, copy the CPL_OASIS directory to /nemo_5.0.1/tests/ (overwriting the version there by default).
+Then, from the clone of this repository that you have made, copy the CPL_OASIS directory to `/nemo_5.0.1/tests/` (overwriting the version there by default).
 
-We are now ready to compile the CPL_OASIS test case. To do this, navigate to the NEMO home directory /nemo_5.0.1/ (the one which contains "makenemo"), and run the command
+We are now ready to compile the CPL_OASIS test case. To do this, navigate to the NEMO home directory `/nemo_5.0.1/` (the one which contains `makenemo`), and run the command
 
 ```
 ./makenemo -a CPL_OASIS -n MYCPL_OASIS -m your_Arch_file -j 8
