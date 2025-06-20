@@ -60,6 +60,24 @@ We need to get the ORCA2 ancilliary files which can be downloaded from here:
 wget "https://gws-access.jasmin.ac.uk/public/nemo/sette_inputs/r5.0.0/ORCA2_ICE_v5.0.0.tar.gz"
 ```
 
+Unzip the directory, and make a note of the location you have saved it (this will need to be added to the runscript later).
+
+
+## TOYATM and TOYWAV compilation
+
+This test case using a toy atmosphere model (and later toy wave model also) to couple to NEMO. We will need to compile the latest version of these toy models. First, copy the TOYATM and TOYWAV directories from this repository that you have cloned to `/nemo_5.0.1/tools/`. This will overwrite the default TOYATM, and add TOYWAV. 
+
+Now we compile them. Ensure you are in the `/nemo_5.0.1/tools/` and run:
+
+```
+./maketools -n TOYATM -m your_Arch_file
+```
+
+```
+./maketools -n TOYWAV -m your_Arch_file
+```
+
+**NOTE:** You must ensure you have the same software enivornment loaded when you compile TOYATM and TOYWAV as for when you compiled NEMO. 
 
 
 
