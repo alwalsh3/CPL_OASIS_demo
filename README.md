@@ -77,8 +77,11 @@ Now we compile them. Ensure you are in the `/nemo_5.0.1/tools/` and run:
 The updated CPL_OASIS test case that you have compiled is now almost ready to run. One additional step is to add a job script and update for your machine. Navigate to `/nemo_5.0.1/tests/MYCPL_OASIS/EXPO0/` and copy an example job script from this repository. We have included examples from a SLURM and PBS based HPC. To copy (using the PBS example),
 
 ```
-cp /CPL_OASIS_demo/support_files/job_run_CPL_OASIS_ATM_UKMO_PBS .
+cp CPL_OASIS_demo/support_files/job_run_CPL_OASIS_ATM_UKMO_PBS 
 ```
+
+(Follow the directory structure in your local machine)
+
 There are a number of changes you will need to make to set up the job script. Update the paths of CONFIG_DIR, WORK, DATADIR, TOYATM_DIR, XIOS_DIR to the paths on your system.
 
 It should now be ready to submit, e.g. for PBS do
