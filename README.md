@@ -74,7 +74,7 @@ Now we compile them. Ensure you are in the `/nemo_5.0.1/tools/` and run:
 
 # Test case 1: Couple NEMO to TOYATM
 
-The updated CPL_OASIS test case that you have compiled is now almost ready to run. One additional step is to add a job script and update for your machine. Navigate to `/nemo_5.0.1/tests/MYCPL_OASIS/EXPO0/` and copy an example job script from this repository. We have included examples from a SLURM and PBS based HPC. To copy (using the PBS example),
+The updated CPL_OASIS test case that you have compiled is now almost ready to run. One additional step is to add a job script and update for your machine. Navigate to `/nemo_5.0.1/tests/MYCPL_OASIS/EXP00/` and copy an example job script from this repository. We have included examples from a SLURM and PBS based HPC. To copy (using the PBS example),
 
 ```
 cp CPL_OASIS_demo/support_files/job_run_CPL_OASIS_ATM_UKMO_PBS 
@@ -117,7 +117,7 @@ We can now try coupling NEMO to two different models: a toy atmosphere (`TOYATM`
 ./makenemo -a CPL_OASIS -n MYCPL_OASIS_ATMWAV -m your_Arch_file -j 8
 ```
 
-Before submitting our job, we need to make some changes. Navigate to the configuration directory `/nemo_5.0.1/tests/MYCPL_OASIS_ATMWAV/EXPO0/`. From the support files from this repository, copy the namelist `namlelist_cfg_ATMWAV` and rename to just `namelist_cfg` (since this is what will be picked up by NEMO). 
+Before submitting our job, we need to make some changes. Navigate to the configuration directory `/nemo_5.0.1/tests/MYCPL_OASIS_ATMWAV/EXP00/`. From the support files from this repository, copy the namelist `namlelist_cfg_ATMWAV` and rename to just `namelist_cfg` (since this is what will be picked up by NEMO). 
 
 ```
 cp /CPL_OASIS_demo/support_files/namelist_cfg_ATMWAV .
