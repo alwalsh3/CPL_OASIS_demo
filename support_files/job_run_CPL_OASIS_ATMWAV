@@ -1,0 +1,98 @@
+#!/bin/bash
+#SBATCH --job-name=cploasis
+#SBATCH --partition=compute
+#SBATCH --time=04:00:00
+#SBATCH --ntasks-per-core=1
+#SBATCH --ntasks-per-node=64
+#SBATCH --ntasks-per-socket=32
+#SBATCH --nodes=3
+
+set -x
+ulimit -s unlimited
+##
+## CONFIG_DIR is submission directory
+##
+CONFIG_DIR=${SLURM_SUBMIT_DIR:-$(pwd)}
+WORK=$(pwd)
+#
+cd ${CONFIG_DIR}
+pwd
+##
+## Define and create execution directory and move there
+##
+XXD=`date +%F%H%M%S`
+echo " XXD " $XXD
+mkdir -p $WORK/OUT/CPLTESTCASE/$XXD
+cd $WORK/OUT/CPLTESTCASE/$XXD
+echo "RUN directory " `pwd`
+##
+## Get input files for NEMO
+##
+# UPDATE THE FORCING PATH FOR YOUR SYSTEM
+DATA1DIR=/dssgfs01/working/$USER/FORCING/SETTE_inputs/5.0.0/ORCA2_ICE_v5.0.0
+for file in $DATA1DIR/* 
+do
+ln -s $file . || exit 2
+done
+# Get input namelist  and xml files
+for file in $CONFIG_DIR/*namelist*_ref $CONFIG_DIR/*namelist*_cfg $CONFIG_DIR/*.xml
+do
+    cp $file . || exit 3
+done
+##
+## Get input files for TOYATM and TOYWAV, including the namcouple file
+##
+TOYATM_DIR=../../../tools/TOYATM
+TOYWAV_DIR=../../../tools/TOYWAV
+# UPDATE THE XIOS PATH FOR YOUR SYSTEM
+export XIOS_DIR=/dssgfs01/working/$USER/NEMO_Zoo/XIOS3
+for file in $TOYWAV_DIR/EXP/*
+do
+    cp $file . || exit 4
+done
+##
+## Get Executables
+##
+cp $CONFIG_DIR/nemo nemo.exe  || exit 5
+cp $TOYATM_DIR/toyatm.exe . || exit 5
+cp $TOYWAV_DIR/toywav.exe . || exit 5
+cp $XIOS_DIR/bin/xios_server.exe . || exit 5
+##
+## Get script generating summary report
+cp $CONFIG_DIR/gen_report.sh .
+
+echo "DIR BEFORE EXEC"
+ls -l
+echo '(3) Prepare launch of the run'
+echo '----------------'
+NB_PROCS_NEMO=28
+NB_PROCS_TOYATM=1
+NB_PROCS_TOYWAV=1
+NB_PROCS_XIOS=1
+date  
+touch ./run_file
+echo 0-27 ./nemo.exe >>./run_file
+echo 28 ./toyatm.exe >>./run_file
+echo 29 ./toywav.exe >>./run_file
+echo 30 ./xios_server.exe >>./run_file
+echo run_file
+cat ./run_file
+##
+## Run the CPL test case using 27 processes for nemo and 1 for toyatm
+##
+echo '(4) Run the code'
+echo '----------------'
+mpiexec.hydra -print-rank-map -ppn 1 -np 28 ./nemo.exe : -np 1 $XIOS_DIR/bin/xios_server.exe : -np 1 ./toyatm.exe : -np 1 ./toywav.exe
+echo "DIR AFTER EXEC"
+ls -l
+date
+pwd
+##
+## simple report generator for the test case
+##
+./gen_report.sh | tee CPL_OASIS_results
+
+
+cat CPL_OASIS_results
+## Copy Summary of results back into submission directory
+cp CPL_OASIS_results ${CONFIG_DIR}
