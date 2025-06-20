@@ -4,7 +4,7 @@ This demonstrator aims to show how to run NEMO coupled to an atmosphere model, a
 ## Getting started
 ### Prerequisites
 
-You will need to have an installation of OASIS3-MCT, and a version of XIOS3 which has been compiled for OASIS. 
+You will need to have an installation of [OASIS3-MCT](https://oasis.cerfacs.fr/wp-content/uploads/sites/114/2021/12/GLOBC_TR_oasis3mct_UserGuide_4.0_final_122021.pdf)  and a version of XIOS3 which has been compiled for OASIS. 
 
 To compile XIOS3 for use with OASIS, do 
 
