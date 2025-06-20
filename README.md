@@ -74,7 +74,7 @@ Now we compile them. Ensure you are in the `/nemo_5.0.1/tools/` and run:
 
 # Test case 1: Couple NEMO to TOYATM
 
-Explanation....
+The first test case is a coupling demonstrator coupling NEMO to a toy atmsophere model. It uses a global ORCA2 configuration, and runs for 10 days. 
 
 <p align="center">
   <img width="500" src="./docs/assets/Tier1_schematic.png">
@@ -118,7 +118,7 @@ We can supress it by editing the namcouple file in `TOYATM/EXP/namcouple` by rep
 
 # Test case 2: Couple NEMO to TOYATM and TOYWAV
 
-Explanation...
+The second test case shows how to couple NEMO to a toy atmsophere model and a toy wave model simultaneously. It also uses a global ORCA2 configuration, and runs for 10 days. 
 
 <p align="center">
   <img width="750" src="./docs/assets/Tier2_schematic.png">
