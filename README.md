@@ -130,7 +130,8 @@ Note that this is different to the job script used in Test case 1. Update the jo
 
 # Understanding coupling with OASIS
 
-Now that you have run the two coupling demonstrators, explore what is different in the coupling setup. 
+Now that you have run the two coupling demonstrators, explore what is different in the coupling setups when two or three models are involved. Explore the differences 
+in the following files to understand what is needed when multiple models are coupled to NEMO. 
 
 * Explore the difference in TOYATM/EXP/namcouple and TOYWAV/EXP/namcouple (Section 3 of the [OASIS-MCT](https://oasis.cerfacs.fr/wp-content/uploads/sites/114/2021/12/GLOBC_TR_oasis3mct_UserGuide_4.0_final_122021.pdf) documentation explains in detail the OASIS configuration file namcouple)
 * Explore the difference in MYCPL_OASIS/EXP00/namelist_cfg and MYCPL_OASIS_ATMWAV/EXP00/namelist_cfg
