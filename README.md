@@ -78,6 +78,7 @@ Explanation....
 
 <p align="center">
   <img width="500" src="./docs/assets/Tier1_schematic.png">
+  <figcaption>Figure 1: Schematic showing the Test case 1 configuration. It shows what variables are exchanged between NEMO and TOYATM through OASIS.</figcaption>
 </p>
 
 The updated CPL_OASIS test case that you have compiled is now almost ready to run. One additional step is to add a job script and update for your machine. Navigate to `nemo_5.0.1/tests/MYCPL_OASIS/EXP00/` and copy an example job script from this repository. We have included examples from a SLURM and PBS based HPC. To copy (using the PBS example),
@@ -121,6 +122,7 @@ Explanation...
 
 <p align="center">
   <img width="750" src="./docs/assets/Tier2_schematic.png">
+  <figcaption>Figure 2: Schematic showing the Test case 2 configuration. It shows what variables are exchanged between NEMO and TOYATM and NEMO and TOYWAV.</figcaption>
 </p>
 
 We can now try coupling NEMO to two different models: a toy atmosphere (`TOYATM`) and a toy wave model (`TOYWAV`). We will use the same test configuration `CPL_OASIS`, and create a new configuration `MYCPL_OASIS_ATMWAV` for this example:
