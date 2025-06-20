@@ -1,9 +1,5 @@
 # CPL OASIS demonstrator
-Demonstrator for CPL OASIS NEMO test configuration.
-Modifications needed to run the CPL_DEMONSTRATOR for NEMO5 
-
-Slurm or PBC. Sometimes we have to mess around the order of executables called. For some architecture call nemo, xios and toyatm (in this order) for some other xios is called last. 
-
+This demonstrator aims to show how to run NEMO coupled to an atmosphere model, and to both an atmosphere and wave model. It is written to be compatible with NEMO v5.0.1 with XIOS3. It is a simple test case, but should act as the basis for more complex configurations. 
 
 ## Getting started
 ### Prerequisites
@@ -33,7 +29,7 @@ git clone https://github.com/alwalsh3/CPL_OASIS_demo.git
 ```
 
 ### Copy new CPL_OASIS and compile
-Navigate to the location of the test coniguration CPL_OASIS:
+Navigate to the location of the test configuration CPL_OASIS:
 
 ```
 cd /nemo_5.0.1/tests/
@@ -61,7 +57,7 @@ Unzip the directory, and make a note of the location you have saved it (this wil
 
 ## TOYATM and TOYWAV compilation
 
-This test case using a toy atmosphere model (and later toy wave model also) to couple to NEMO. We will need to compile the latest version of these toy models. First, copy the TOYATM and TOYWAV directories from this repository that you have cloned to `/nemo_5.0.1/tools/`. This will overwrite the default TOYATM, and add TOYWAV. 
+This test case uses a toy atmosphere model (and later toy wave model also) to couple to NEMO. We will need to compile the latest version of these toy models. First, copy the TOYATM and TOYWAV directories from this repository that you have cloned to `/nemo_5.0.1/tools/`. This will overwrite the default TOYATM, and add TOYWAV. 
 
 Now we compile them. Ensure you are in the `/nemo_5.0.1/tools/` and run:
 
