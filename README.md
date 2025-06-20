@@ -128,6 +128,13 @@ cp /CPL_OASIS_demo/support_files/job_run_CPL_OASIS_ATMWAV_UKMO_PBS .
 ```
 Note that this is different to the job script used in Test case 1. Update the job script for your machine, and submit.
 
+# Understanding coupling with OASIS
+
+Now that you have run the two coupling demonstrators, explore what is different in the coupling setup. 
+
+* Explore the difference in TOYATM/EXP/namcouple and TOYWAV/EXP/namcouple
+* Explore the difference in MYCPL_OASIS/EXP00/namelist_cfg and MYCPL_OASIS_ATMWAV/EXP00/namelist_cfg
+
 
 # Debugging tips
 
