@@ -74,6 +74,12 @@ Now we compile them. Ensure you are in the `/nemo_5.0.1/tools/` and run:
 
 # Test case 1: Couple NEMO to TOYATM
 
+Explanation....
+
+<p align="center">
+  <img width="500" src="./docs/assets/Tier1_schematic.png">
+</p>
+
 The updated CPL_OASIS test case that you have compiled is now almost ready to run. One additional step is to add a job script and update for your machine. Navigate to `nemo_5.0.1/tests/MYCPL_OASIS/EXP00/` and copy an example job script from this repository. We have included examples from a SLURM and PBS based HPC. To copy (using the PBS example),
 
 ```
@@ -110,6 +116,12 @@ We can supress it by editing the namcouple file in `TOYATM/EXP/namcouple` by rep
 
 
 # Test case 2: Couple NEMO to TOYATM and TOYWAV
+
+Explanation...
+
+<p align="center">
+  <img width="750" src="./docs/assets/Tier2_schematic.png">
+</p>
 
 We can now try coupling NEMO to two different models: a toy atmosphere (`TOYATM`) and a toy wave model (`TOYWAV`). We will use the same test configuration `CPL_OASIS`, and create a new configuration `MYCPL_OASIS_ATMWAV` for this example:
 
